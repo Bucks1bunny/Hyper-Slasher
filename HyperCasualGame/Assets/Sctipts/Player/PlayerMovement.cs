@@ -6,15 +6,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     public float sideSpeed;
+
     private Rigidbody rb;
     private float width;
-    private Vector3 position;
     private Touch touch;
 
     private void Awake()
     {
         width = (float)Screen.width / 2.0f;
-        position = new Vector3(0.0f, 0.0f, 0.0f);
 
         rb = GetComponent<Rigidbody>();
     }
@@ -32,12 +31,17 @@ public class PlayerMovement : MonoBehaviour
             Mathf.Clamp(pos.x, -0.5f, 0.5f);
             if (pos.x > 0)
             {
-                transform.Translate(Vector3.right * sideSpeed * Time.deltaTime);
+                MoveToSide(Vector3.right);
             }
             else if (pos.x < 0)
             {
-                transform.Translate(Vector3.left * sideSpeed * Time.deltaTime);
+                MoveToSide(Vector3.left);
             }
         }
+    }
+
+    private void MoveToSide(Vector3 direction)
+    {
+        transform.Translate(direction * sideSpeed * Time.deltaTime);
     }
 }
