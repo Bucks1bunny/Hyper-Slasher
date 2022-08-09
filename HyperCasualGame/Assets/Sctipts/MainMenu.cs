@@ -30,7 +30,8 @@ public class MainMenu : MonoBehaviour
     #endregion
     private void Start()
     {
-        gemsText.text = PlayerPrefs.GetInt("Gems").ToString();
+        int gems = PlayerPrefs.GetInt("Gems");
+        gemsText.text = gems.ToString();
         optionsUI.SetActive(false);
     }
 

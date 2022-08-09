@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int Gems
+    {
+        get;
+        private set;
+    } = 0;
+
     private GameObject[] upgrades;
     private float size = 1;
     private float height = 1;
@@ -11,15 +17,15 @@ public class Player : MonoBehaviour
         var upgradeGO = GameObject.Find("Upgrades");
         foreach (var upgrade in upgradeGO.GetComponentsInChildren<Upgrade>())
         {
-            upgrade.Upgraded += ChangeSize;
+            upgrade.Upgraded += OnUpgrade;
         }
     }
 
-    private void ChangeSize(bool _size, float amount,EUpgradeType upgradeType)
+    private void OnUpgrade(bool _size, float amount, EUpgradeType upgradeType)
     {
         if (_size)
         {
-            size = ChangeAttribute(size, amount,upgradeType);
+            size = ChangeAttribute(size, amount, upgradeType);
             transform.localScale = new Vector3(size, transform.localScale.y, size);
         }
         else
@@ -49,5 +55,14 @@ public class Player : MonoBehaviour
                 break;
         }
         return attribute;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Gem")
+        {
+            Gems += 1;
+            Destroy(other.gameObject);
+        }
     }
 }
