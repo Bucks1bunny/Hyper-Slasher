@@ -2,57 +2,51 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     private GameObject[] upgrades;
     private float size = 1;
     private float height = 1;
 
     private void Start()
     {
-        foreach (var upgrade in upgrades)
+        var upgradeGO = GameObject.Find("Upgrades");
+        foreach (var upgrade in upgradeGO.GetComponentsInChildren<Upgrade>())
         {
-            upgrade.GetComponent<Upgrade>().Upgraded += ChangeSize;
+            upgrade.Upgraded += ChangeSize;
         }
     }
 
-    private void ChangeSize(bool increaseOrDicrease, float amount, bool plusOrMinus, bool _size)
+    private void ChangeSize(bool _size, float amount,EUpgradeType upgradeType)
     {
         if (_size)
         {
-            size = ChangeAttribute(increaseOrDicrease, plusOrMinus, size, amount);
+            size = ChangeAttribute(size, amount,upgradeType);
             transform.localScale = new Vector3(size, transform.localScale.y, size);
         }
         else
         {
-            height = ChangeAttribute(increaseOrDicrease, plusOrMinus, height, amount);
+            height = ChangeAttribute(height, amount, upgradeType);
             transform.localScale = new Vector3(transform.localScale.x, height, transform.localScale.z);
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
         }
     }
 
-    private float ChangeAttribute(bool add, bool plusOrminus, float attribute, float amount)
+    private float ChangeAttribute(float attribute, float amount, EUpgradeType upgradeType)
     {
-        if (add)
+        amount /= 10;
+        switch (upgradeType)
         {
-            if (plusOrminus)
-            {
+            case EUpgradeType.IncreaseAndPlus:
                 attribute += amount;
-            }
-            else
-            {
+                break;
+            case EUpgradeType.IncraeseAndMultiply:
                 attribute *= amount;
-            }
-        }
-        else
-        {
-            if (plusOrminus)
-            {
+                break;
+            case EUpgradeType.DecreaseAndMinus:
                 attribute -= amount;
-            }
-            else
-            {
+                break;
+            case EUpgradeType.DecreaseAndDivide:
                 attribute /= amount;
-            }
+                break;
         }
         return attribute;
     }

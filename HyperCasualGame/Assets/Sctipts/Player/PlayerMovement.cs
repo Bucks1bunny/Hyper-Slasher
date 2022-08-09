@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Rigidbody rb
+    {
+        get;
+        private set;
+    }
     public float speed;
     public float sideSpeed;
 
-    private Rigidbody rb;
     private float width;
     private Touch touch;
 
