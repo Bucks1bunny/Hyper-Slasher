@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public event Action<int> GemPickedup = delegate { };
+
     public int Gems
     {
         get;
@@ -9,8 +12,8 @@ public class Player : MonoBehaviour
     } = 0;
 
     private GameObject[] upgrades;
-    private float size = 1;
-    private float height = 1;
+    private float size = 1.5f;
+    private float height = 1.5f;
 
     private void Start()
     {
@@ -21,40 +24,28 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnUpgrade(bool _size, float amount, EUpgradeType upgradeType)
+    private void OnUpgrade(float amount, EUpgradeType upgradeType)
     {
-        if (_size)
-        {
-            size = ChangeAttribute(size, amount, upgradeType);
-            transform.localScale = new Vector3(size, transform.localScale.y, size);
-        }
-        else
-        {
-            height = ChangeAttribute(height, amount, upgradeType);
-            transform.localScale = new Vector3(transform.localScale.x, height, transform.localScale.z);
-            transform.position = new Vector3(transform.position.x, height, transform.position.z);
-        }
-    }
-
-    private float ChangeAttribute(float attribute, float amount, EUpgradeType upgradeType)
-    {
-        amount /= 10;
+        amount /= 100;
         switch (upgradeType)
         {
-            case EUpgradeType.IncreaseAndPlus:
-                attribute += amount;
+            case EUpgradeType.SizePlus:
+                size += amount;
+                transform.localScale = new Vector3(size, transform.localScale.y, size);
                 break;
-            case EUpgradeType.IncraeseAndMultiply:
-                attribute *= amount;
+            case EUpgradeType.SizeMinus:
+                size -= amount;
+                transform.localScale = new Vector3(size, transform.localScale.y, size);
                 break;
-            case EUpgradeType.DecreaseAndMinus:
-                attribute -= amount;
+            case EUpgradeType.HeightPlus:
+                height += amount;
+                transform.localScale = new Vector3(transform.localScale.x, height, transform.localScale.z);
                 break;
-            case EUpgradeType.DecreaseAndDivide:
-                attribute /= amount;
+            case EUpgradeType.HeightMinus:
+                height -= amount;
+                transform.localScale = new Vector3(transform.localScale.x, height, transform.localScale.z);
                 break;
         }
-        return attribute;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,6 +54,7 @@ public class Player : MonoBehaviour
         {
             Gems += 1;
             Destroy(other.gameObject);
+            GemPickedup(Gems);
         }
     }
 }

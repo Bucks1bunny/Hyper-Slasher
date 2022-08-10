@@ -8,7 +8,6 @@ public class EndPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         gameUI.SetActive(false);
-        Debug.Log(gameUI.active);
         endGameUI.SetActive(true);
 
         var player = other.GetComponent<PlayerMovement>();

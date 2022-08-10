@@ -1,9 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ManagerUI : MonoBehaviour
 {
     public GameObject pauseUI;
+    public TextMeshProUGUI gemsText;
+    public Player player
+    {
+        get;
+        private set;
+    }
 
     public void PauseGame()
     {
@@ -26,5 +33,12 @@ public class ManagerUI : MonoBehaviour
     {
         pauseUI.SetActive(false);
         Time.timeScale = 1;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.GemPickedup += OnGemPickedup;
+    }
+
+    private void OnGemPickedup(int gems)
+    {
+        gemsText.text = gems.ToString();
     }
 }

@@ -4,36 +4,40 @@ using TMPro;
 
 public class Upgrade : MonoBehaviour
 {
-    public event Action<bool, float, EUpgradeType> Upgraded = delegate { };
+    public event Action<float, EUpgradeType> Upgraded = delegate { };
 
     [SerializeField]
     private EUpgradeType upgradeType;
     [SerializeField]
     private float amount;
     [SerializeField]
-    private bool size;
+    private TextMeshProUGUI amountText;
     [SerializeField]
-    private TextMeshProUGUI upgradeText;
+    private TextMeshProUGUI attributeText;
 
     private void Start()
     {
         switch (upgradeType)
         {
-            case EUpgradeType.IncreaseAndPlus:
-                upgradeText.text = "+" + amount.ToString();
-                upgradeText.color = Color.green;
+            case EUpgradeType.SizePlus:
+                amountText.text = "+" + amount.ToString();
+                attributeText.text = "Size";
+                SetColor(Color.green, new Color(0, 1, 0, 0.3f));
                 break;
-            case EUpgradeType.IncraeseAndMultiply:
-                upgradeText.text = "*" + amount.ToString();
-                upgradeText.color = Color.green;
+            case EUpgradeType.SizeMinus:
+                amountText.text = "-" + amount.ToString();
+                attributeText.text = "Size";
+                SetColor(Color.red, new Color(1, 0, 0, 0.3f));
                 break;
-            case EUpgradeType.DecreaseAndMinus:
-                upgradeText.color = Color.red;
-                upgradeText.text = "-" + amount.ToString();
+            case EUpgradeType.HeightPlus:
+                amountText.text = "+" + amount.ToString();
+                attributeText.text = "Height";
+                SetColor(Color.green, new Color(0, 1, 0, 0.3f));
                 break;
-            case EUpgradeType.DecreaseAndDivide:
-                upgradeText.text = "/" + amount.ToString();
-                upgradeText.color = Color.red;
+            case EUpgradeType.HeightMinus:
+                amountText.text = "-" + amount.ToString();
+                attributeText.text = "Height";
+                SetColor(Color.red, new Color(1, 0, 0, 0.3f));
                 break;
         }
     }
@@ -42,8 +46,15 @@ public class Upgrade : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Upgraded(size, amount, upgradeType);
+            Upgraded(amount, upgradeType);
         }
         Destroy(gameObject);
+    }
+
+    private void SetColor(Color textColor, Color doorColor)
+    {
+        var material = gameObject.GetComponent<Renderer>();
+        material.material.color = doorColor;
+        amountText.color = textColor;
     }
 }
