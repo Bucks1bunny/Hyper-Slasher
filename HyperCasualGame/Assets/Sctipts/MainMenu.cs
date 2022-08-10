@@ -18,15 +18,6 @@ public class MainMenu : MonoBehaviour
         optionsUI.SetActive(true);
     }
 
-    public void OpenScinsUI()
-    {
-
-    }
-
-    public void OpenShopUI()
-    {
-
-    }
     #endregion
     private void Start()
     {
@@ -35,11 +26,13 @@ public class MainMenu : MonoBehaviour
         optionsUI.SetActive(false);
     }
 
-    #region OPTIONS 
-    public void BackButton(GameObject UI)
+    public void CloseUI(GameObject UI)
     {
         UI.SetActive(false);
     }
-    #endregion
 
+    public void OpenUI(GameObject UI)
+    {
+        UI.SetActive(true);
+    }
 }

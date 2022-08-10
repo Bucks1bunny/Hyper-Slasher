@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
         private set;
     } = 0;
 
-    private GameObject[] upgrades;
     private float size = 1.5f;
     private float height = 1.5f;
 
