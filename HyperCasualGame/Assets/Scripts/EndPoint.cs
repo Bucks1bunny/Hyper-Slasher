@@ -6,6 +6,8 @@ public class EndPoint : MonoBehaviour
     public GameObject gameUI;
     public GameObject endGameUI;
     public TextMeshProUGUI collectedGems;
+
+    
     private int unlockLevel;
 
     private void Start()
@@ -27,5 +29,15 @@ public class EndPoint : MonoBehaviour
         collectedGems.text = currentGems.ToString();
         PlayerPrefs.SetInt("Level", unlockLevel);
         PlayerPrefs.SetInt("Gems", gems + currentGems);
+    }
+
+    private void PlayerWin()
+    {
+
+    }
+
+    private void PlayerDefeat()
+    {
+
     }
 }
