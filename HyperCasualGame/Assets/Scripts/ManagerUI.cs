@@ -23,16 +23,29 @@ public class ManagerUI : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void ResumeGame()
+    public void ResumeGame(GameObject UI)
     {
-        pauseUI.SetActive(false);
+        UI.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void LoadNextLevel()
+    {
+        int nextLevel = PlayerPrefs.GetInt("Level");
+        if (nextLevel < 5)
+        {
+            SceneManager.LoadScene("Level" + PlayerPrefs.GetInt("Level"));
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     private void Start()
     {
         pauseUI.SetActive(false);
-        Time.timeScale = 1;
+        Time.timeScale = 0;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.GemPickedup += OnGemPickedup;
     }
