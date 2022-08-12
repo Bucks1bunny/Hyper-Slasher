@@ -4,13 +4,11 @@ using TMPro;
 
 public class ManagerUI : MonoBehaviour
 {
-    public GameObject pauseUI;
-    public TextMeshProUGUI gemsText;
-    public Player player
-    {
-        get;
-        private set;
-    }
+    [SerializeField]
+    private GameObject pauseUI;
+    [SerializeField]
+    private TextMeshProUGUI gemsText;
+    private Player player;
 
     public void PauseGame()
     {

@@ -9,9 +9,11 @@ public class PlayerMovement : MonoBehaviour
         get;
         private set;
     }
-    public float speed;
-    public float sideSpeed;
 
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float sideSpeed;
     private float width;
     private Touch touch;
 
@@ -32,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
             Vector2 pos = touch.position;
             pos.x = (pos.x - width) / width;
 
-            Mathf.Clamp(pos.x, -0.5f, 0.5f);
             if (pos.x > 0)
             {
                 MoveToSide(Vector3.right);

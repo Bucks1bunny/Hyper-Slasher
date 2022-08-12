@@ -3,41 +3,79 @@ using TMPro;
 
 public class EndPoint : MonoBehaviour
 {
-    public GameObject gameUI;
-    public GameObject endGameUI;
-    public TextMeshProUGUI collectedGems;
+    [SerializeField]
+    private GameObject gameUI;
+    [SerializeField]
+    private GameObject endGameUI;
+    [SerializeField]
+    private GameObject nextLevelButton;
+    [SerializeField]
+    private GameObject retryButton;
+    [SerializeField]
+    private TextMeshProUGUI collectedGems;
+    [SerializeField]
+    private TextMeshProUGUI endGameText;
 
-    
-    private int unlockLevel;
+    private int nextLevel;
+    private Player player;
 
     private void Start()
     {
-        unlockLevel = PlayerPrefs.GetInt("Level") + 1;
+        nextLevel = PlayerPrefs.GetInt("Level");
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        gameUI.SetActive(false);
-        endGameUI.SetActive(true);
+        if (other.tag == "Player")
+        {
+            var playerMovement = other.GetComponent<PlayerMovement>();
+            playerMovement.rb.velocity = Vector3.zero;
+            playerMovement.enabled = false;
 
-        var player = other.GetComponent<PlayerMovement>();
-        int currentGems = player.GetComponent<Player>().Gems;
-        int gems = PlayerPrefs.GetInt("Gems");
+            player = other.GetComponent<Player>();
+            var boss = GameObject.Find("Boss");
 
-        player.rb.velocity = Vector3.zero;
-        player.enabled = false;
+            float playerStrengh = player.transform.localScale.x + player.transform.localScale.y;
+            float bossStrengh = boss.transform.localScale.x + boss.transform.localScale.y;
 
-        collectedGems.text = currentGems.ToString();
-        PlayerPrefs.SetInt("Level", unlockLevel);
-        PlayerPrefs.SetInt("Gems", gems + currentGems);
+            if (playerStrengh - bossStrengh >= 0)
+            {
+                Invoke("PlayerWin", 3f);
+            }
+            else
+            {
+                Invoke("PlayerLose", 3f);
+            }
+        }
     }
 
     private void PlayerWin()
     {
+        PlayerEnd();
+        endGameText.text = "LEVEL CLEARED";
+        retryButton.SetActive(false);
+        nextLevelButton.SetActive(true);
 
+        PlayerPrefs.SetInt("Level", nextLevel+1);
     }
 
-    private void PlayerDefeat()
+    private void PlayerLose()
     {
+        PlayerEnd();
+        retryButton.SetActive(true);
+        nextLevelButton.SetActive(false);
+        endGameText.text = "YOU LOSE";
+    }
 
+    private void PlayerEnd()
+    {
+        gameUI.SetActive(false);
+        endGameUI.SetActive(true);
+
+        int currentGems = player.Gems;
+        int gems = PlayerPrefs.GetInt("Gems");
+
+        collectedGems.text = currentGems.ToString();
+        PlayerPrefs.SetInt("Gems", gems + currentGems);
     }
 }

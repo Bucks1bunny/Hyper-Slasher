@@ -5,9 +5,12 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public TextMeshProUGUI gemsText;
-    public GameObject optionsUI;
-    public GameObject[] levels;
+    [SerializeField]
+    private TextMeshProUGUI gemsText;
+    [SerializeField]
+    private GameObject optionsUI;
+    [SerializeField]
+    private GameObject[] levels;
     private int currentLevel;
 
     private void Start()
@@ -26,9 +29,9 @@ public class MainMenu : MonoBehaviour
         }
         for (int i = 0; i < levels.Length; i++)
         {
-            if(i == currentLevel - 1)
+            if (i == currentLevel - 1)
             {
-                levels[i].GetComponentInChildren<Image>().color = new Color(0.3f, 0.7f,0f);
+                levels[i].GetComponentInChildren<Image>().color = new Color(0.3f, 0.7f, 0f);
             }
             else
             {
