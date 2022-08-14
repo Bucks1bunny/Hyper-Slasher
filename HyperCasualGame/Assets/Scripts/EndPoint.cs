@@ -33,6 +33,8 @@ public class EndPoint : MonoBehaviour
             playerMovement.enabled = false;
 
             player = other.GetComponent<Player>();
+            var playerAnim = player.GetComponent<Animator>();
+            playerAnim.SetTrigger("BossFight");
             var boss = GameObject.Find("Boss");
 
             float playerStrengh = player.transform.localScale.x + player.transform.localScale.y;
@@ -40,13 +42,13 @@ public class EndPoint : MonoBehaviour
 
             if (playerStrengh - bossStrengh >= 0)
             {
-                player.GetComponent<Animator>().SetTrigger("Attack");
-                Invoke("PlayerWin", 1.7f);
+                playerAnim.SetTrigger("Attack");
+                Invoke("PlayerWin", 2f);
             }
             else
             {
                 boss.GetComponent<Animator>().SetTrigger("Attack");
-                Invoke("PlayerLose", 1.7f);
+                Invoke("PlayerLose", 1.3f);
             }
         }
     }
@@ -57,8 +59,10 @@ public class EndPoint : MonoBehaviour
         endGameText.text = "LEVEL CLEARED";
         retryButton.SetActive(false);
         nextLevelButton.SetActive(true);
-
-        PlayerPrefs.SetInt("Level", nextLevel + 1);
+        if (nextLevel != 5)
+        {
+            PlayerPrefs.SetInt("Level", nextLevel + 1);
+        }
     }
 
     private void PlayerLose()
