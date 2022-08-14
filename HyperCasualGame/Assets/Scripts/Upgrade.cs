@@ -4,7 +4,7 @@ using TMPro;
 
 public class Upgrade : MonoBehaviour
 {
-    public event Action<float, EUpgradeType> Upgraded = delegate { };
+    public event Action<float, EUpgradeType> InUpgradeEntered = delegate { };
 
     [SerializeField]
     private EUpgradeType upgradeType;
@@ -46,7 +46,7 @@ public class Upgrade : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Upgraded(amount, upgradeType);
+            InUpgradeEntered(amount, upgradeType);
         }
         Destroy(gameObject);
     }

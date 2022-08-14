@@ -10,7 +10,14 @@ public class Player : MonoBehaviour
         get;
         private set;
     } = 0;
+    public AudioSource Audio
+    {
+        get;
+        private set;
+    }
 
+    [SerializeField]
+    private AudioClip gemPickupSound;
     private float size = 1.5f;
     private float height = 1.5f;
 
@@ -19,11 +26,13 @@ public class Player : MonoBehaviour
         var upgradeGO = GameObject.Find("Upgrades");
         foreach (var upgrade in upgradeGO.GetComponentsInChildren<Upgrade>())
         {
-            upgrade.Upgraded += OnUpgrade;
+            upgrade.InUpgradeEntered += OnUpgradeEntered;
         }
+        Audio = GetComponent<AudioSource>();
+
     }
 
-    private void OnUpgrade(float amount, EUpgradeType upgradeType)
+    private void OnUpgradeEntered(float amount, EUpgradeType upgradeType)
     {
         amount /= 100;
         switch (upgradeType)
@@ -46,14 +55,15 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Gem")
         {
             Gems += 1;
-            Destroy(other.gameObject);
             GemPickedup(Gems);
+            Audio.clip = gemPickupSound;
+            Audio.Play();
+            Destroy(other.gameObject);
         }
     }
 }

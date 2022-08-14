@@ -40,11 +40,13 @@ public class EndPoint : MonoBehaviour
 
             if (playerStrengh - bossStrengh >= 0)
             {
-                Invoke("PlayerWin", 3f);
+                player.GetComponent<Animator>().SetTrigger("Attack");
+                Invoke("PlayerWin", 1.7f);
             }
             else
             {
-                Invoke("PlayerLose", 3f);
+                boss.GetComponent<Animator>().SetTrigger("Attack");
+                Invoke("PlayerLose", 1.7f);
             }
         }
     }
@@ -56,7 +58,7 @@ public class EndPoint : MonoBehaviour
         retryButton.SetActive(false);
         nextLevelButton.SetActive(true);
 
-        PlayerPrefs.SetInt("Level", nextLevel+1);
+        PlayerPrefs.SetInt("Level", nextLevel + 1);
     }
 
     private void PlayerLose()

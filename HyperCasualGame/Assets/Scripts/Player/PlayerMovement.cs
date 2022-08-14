@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        transform.GetComponent<Animator>().SetFloat("velocity", rb.velocity.z);
         rb.velocity = transform.forward * speed;
 
         if (Input.touchCount > 0)

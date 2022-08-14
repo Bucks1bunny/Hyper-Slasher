@@ -8,8 +8,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI gemsText;
     [SerializeField]
-    private GameObject optionsUI;
-    [SerializeField]
     private GameObject[] levels;
     private int currentLevel;
 
@@ -17,7 +15,6 @@ public class MainMenu : MonoBehaviour
     {
         int gems = PlayerPrefs.GetInt("Gems");
         gemsText.text = gems.ToString();
-        optionsUI.SetActive(false);
 
         if (PlayerPrefs.HasKey("Level"))
         {
