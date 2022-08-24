@@ -18,13 +18,17 @@ public class Achievement : MonoBehaviour
 
     public void OnButtonPress()
     {
-        if(PlayerPrefs.GetInt("Level") == 5 && !data.isTaken)
+        if (PlayerPrefs.GetInt("Level") == 5 && !data.isTaken)
         {
             TakeReward();
         }
         else if (PlayerPrefs.GetInt(data.title) == 1 && !data.isTaken)
         {
             TakeReward();
+        }
+        else
+        {
+            GetComponent<Image>().color = new Color(1, 1, 1);
         }
     }
 
