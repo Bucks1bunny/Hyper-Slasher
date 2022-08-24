@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ReachSize
   m_EditorClassIdentifier: 
   title: ReachSize
-  isRecieved: 0
+  isTaken: 1
   gemsReward: 30

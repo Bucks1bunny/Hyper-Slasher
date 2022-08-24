@@ -1,19 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AchievementsManager : MonoBehaviour
 {
-    private int GetAchievement(AchievementScriptableObject achievement)
+    public static AchievementsManager manager;
+
+    private Player player;
+
+    private void Awake()
     {
-        if (!PlayerPrefs.HasKey(achievement.title))
+        if (manager != null)
         {
-            PlayerPrefs.SetInt(achievement.title, 0);
-            return 0;
+            Destroy(gameObject);
         }
         else
         {
-            return PlayerPrefs.GetInt(achievement.title);
+            manager = this;
         }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        player = GameObject.Find("PlayerCharacter").GetComponent<Player>();
+        player.AttributeReached += GetAchievement;
+    }
+
+    private void GetAchievement(string achievement)
+    {
+        PlayerPrefs.SetInt(achievement, 1);
     }
 }

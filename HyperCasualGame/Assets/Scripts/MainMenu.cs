@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
         {
             currentLevel = 1;
         }
+
         for (int i = 0; i < levels.Length; i++)
         {
             if (i == currentLevel - 1)

@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public event Action<int> GemPickedup = delegate { };
+    public event Action<string> AttributeReached = delegate { };
 
     public int Gems
     {
@@ -53,6 +54,15 @@ public class Player : MonoBehaviour
                 height -= amount;
                 transform.localScale = new Vector3(transform.localScale.x, height, transform.localScale.z);
                 break;
+        }
+
+        if (size >= 2.5f)
+        {
+            AttributeReached("ReachSize");
+        }
+        if (height >= 2.5f)
+        {
+            AttributeReached("ReachHeight");
         }
     }
     private void OnTriggerEnter(Collider other)
